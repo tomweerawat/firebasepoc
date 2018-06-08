@@ -1,0 +1,52 @@
+package monthlyreport.Controller;
+
+public class NewCustItemDao {
+
+    private String month;
+    private String gender;
+    private String newregister;
+    private String totalofmale;
+    private String totaloffemale;
+
+  
+
+	public String getTotalofmale() {
+		return totalofmale;
+	}
+
+	public void setTotalofmale(String totalofmale) {
+		this.totalofmale = totalofmale;
+	}
+
+	public String getTotaloffemale() {
+		return totaloffemale;
+	}
+
+	public void setTotaloffemale(String totaloffemale) {
+		this.totaloffemale = totaloffemale;
+	}
+
+	public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getNewregister() {
+        return newregister;
+    }
+
+    public void setNewregister(String newregister) {
+        this.newregister = newregister;
+    }
+}

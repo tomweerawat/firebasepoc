@@ -1,0 +1,6 @@
+1526540335697	Encapsulate field 'name'
+1526540633336	Encapsulate field 'stringVat'
+1526540701186	Encapsulate field 'bankaccount'
+1526540866386	Encapsulate field 'feediscountfromcode'
+1526552802078	Rename type 'test'
+1526552876988	Encapsulate field 'newcuss'

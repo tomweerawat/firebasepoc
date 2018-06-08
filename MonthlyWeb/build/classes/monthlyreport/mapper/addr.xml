@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="addr">
+
+    <select id = "getAllCust" resultType = "monthlyreport.dao.CustItemDao">
+		SELECT * FROM cust;
+
+	</select>
+
+    <select id = "getNewCustByMonth"  parameterType="map" resultType = "monthlyreport.dao.NewCustItemDao">
+	    <![CDATA[ 
+		SELECT
+		DATE_FORMAT( crtd_dttm, "%Y-%m" ) as 'month',
+		cust_gend AS gender,
+		count( cust_id ) AS newregister
+		FROM
+		cust 
+		WHERE
+		date(crtd_dttm) >= #{date}
+		and date(crtd_dttm)<=#{edate}
+		GROUP BY
+		DATE_FORMAT( crtd_dttm, "%Y %m" ),
+		gender
+		ORDER BY crtd_dttm DESC;
+ 		 ]]>
+	</select>
+	
+    <select id="getSomething" parameterType="map" resultType="monthlyreport.dao.SeparateIncome">
+        <![CDATA[
+        Select
+        trns.trns_dttm as transactiondatetime,
+        mer.mrchnt_name 	as Merchant,
+        srvc.srvc_name		as Service,
+        trns.unit			as Unit,
+        vat_type_desc(mer.vat_type)	as VATCase,
+        trns.mrchnt_incm_amnt as Incomefromcust ,
+        trns.mrchnt_rev_amnt as commissionfrommerchant,
+        trns.mrchnt_net_incm_amnt as merchantnetincome,
+        rt.fee_incv_amnt	as feeincludevat,
+        rt.disc_amnt			as discountfromcode,
+        rt.coin_amnt			as coinused,
+        (rt.disc_amnt + rt.coin_amnt) as Totaldiscount,
+        mer.mrchnt_owner_name						as Nameoftax,
+        mer.mrchnt_tax_id							as TaxNo,
+        concat(ba.addr_1,' ',ba.addr_2,' ',ba.post_code) as billaddress,
+        cus.cust_frst_name as CustName,
+        cus.cust_last_name as CustLastName
+        from
+        mrchnt_srvc_trns trns
+        inner join mrchnt mer
+        on trns.mrchnt_id = mer.mrchnt_id
+        inner join rcpt_tax rt
+        on rt.rcpt_id = trns.rcpt_id and rt.rcpt_stts = 'P'
+        inner join mrchnt_srvc srvc
+        on trns.srvc_id = srvc.srvc_id
+        inner join bill_addr ba
+        on ba.bill_addr_id = mer.bill_addr_id
+        inner join cust cus
+        on trns.cust_id = cus.cust_id
+        where
+        date(trns.trns_dttm) >= #{startdate}
+        and date(trns.trns_dttm)<=#{enddate}
+        order by substring(mer.mrchnt_id,-3) asc , trns.trns_dttm asc
+        ]]>
+
+
+
+    </select>
+    
+    
+    
+	<select id="getSumIncome" parameterType="map" resultType="monthlyreport.dao.MerSumIncome">
+		<![CDATA[
+select
+
+	#{startdate}								as startDate,
+    #{enddate}									as endDate,
+    mer.mrchnt_name							as Merchant,
+    srvc.srvc_name								as  Service,
+    a.unit										as UnitTime,
+    vat_type_desc(mer.vat_type)					as VATCase,
+    a.mrchnt_incm_amnt							as MerchantIncome,
+    a.mrchnt_incm_amnt_exvat 					as ServiceValue,
+    a.mrchnt_incm_amnt_vat						as VAT,
+    a.mrchnt_rev_amnt 							as CommissionfromMerchant,
+    a.mrchnt_net_incm_amnt						as MerchantNetIncome,
+    a.fee_incv_amnt							as FEE,
+    a.disc_amnt									as Discountfromcode,
+    a.coin_amnt									as DiscountfromCoin,
+    a.disc_amnt + a.coin_amnt				as TotalDiscount,
+    mer.mrchnt_owner_name						as Nameoftax,
+    mer.mrchnt_tax_id							as TaxNo,
+    mer.mrchnt_bank								as Bank,
+    mer.mrchnt_bank_acct						as Bankaccountno,
+    mer.mrchnt_bank_acct_name					as Bankaccountname,
+    mer.mrchnt_bank_banch						as Bankbanch,
+    CONCAT(ba.addr_1,' ',ba.addr_2,' ',ba.post_code) as billaddress,
+    mer.mrchnt_cust_mail                       as Mail
+
+
+from
+(
+	select
+		t.mrchnt_id							as mrchnt_id,
+		t.srvc_id							as srvc_id,
+		sum(t.unit)							as unit,
+		sum(t.mrchnt_incm_amnt)			as mrchnt_incm_amnt,
+		sum(t.mrchnt_incm_amnt_exvat)		as mrchnt_incm_amnt_exvat,
+		sum(t.mrchnt_incm_amnt_vat)		as mrchnt_incm_amnt_vat,
+		sum(t.mrchnt_rev_amnt)				as mrchnt_rev_amnt,
+		sum(t.mrchnt_net_incm_amnt)		as mrchnt_net_incm_amnt,
+		sum(t.fee_incv_amnt)				as fee_incv_amnt,
+		sum(t.disc_amnt)					as disc_amnt,
+		sum(t.coin_amnt)					as coin_amnt
+	from (
+		select
+			trns.mrchnt_id					as mrchnt_id,
+			trns.srvc_id					as srvc_id,
+			trns.unit						as unit,
+			trns.mrchnt_incm_amnt 			as mrchnt_incm_amnt,
+			trns.mrchnt_incm_amnt * (100/107) 	as mrchnt_incm_amnt_exvat,
+			trns.mrchnt_incm_amnt - (trns.mrchnt_incm_amnt * (100/107) ) as mrchnt_incm_amnt_vat,
+			trns.mrchnt_rev_amnt as mrchnt_rev_amnt,
+			trns.mrchnt_net_incm_amnt 				as mrchnt_net_incm_amnt,
+			case when trns.rev_share_type = 'P' then trns.rev_share_amnt else 1 end as rev_share_amnt,
+			rt.fee_incv_amnt				as fee_incv_amnt,
+			rt.disc_amnt					as disc_amnt,
+			rt.coin_amnt					as coin_amnt,
+			trns.trns_dttm					as transactiondatetime
+		from
+			mrchnt_srvc_trns trns
+			inner join rcpt_tax rt
+			on rt.rcpt_id = trns.rcpt_id AND rt.rcpt_stts = 'P'
+		where
+			date(trns.trns_dttm) >= #{startdate}
+			and date(trns.trns_dttm) <= #{enddate}
+
+	) t
+	group by
+		t.mrchnt_id,t.srvc_id
+) a
+	inner join mrchnt mer
+    on a.mrchnt_id = mer.mrchnt_id
+    inner join mrchnt_srvc srvc
+    on a.srvc_id = srvc.srvc_id
+    inner join bill_addr ba
+    on ba.bill_addr_id = mer.bill_addr_id
+order by
+	substring(mer.mrchnt_id,-3) asc, srvc.srvc_name asc
+        ]]>
+
+
+
+	</select>
+
+
+</mapper>

@@ -1,0 +1,193 @@
+package monthlyreport.Controller;
+
+public class CustItemDao2 {
+    private String cust_id;
+    private String cust_frst_name;
+    private String cust_last_name;
+    private String cust_frst_name_en;
+    private String cust_last_name_en;
+    private String cust_img_url;
+    private String cust_email;
+    private String cust_mobl_no;
+    private String cust_auth_id;
+    private String cust_auth_type;
+    private String cust_gend;
+    private String cust_brth_dttm;
+    private String cust_nation;
+    private String cust_username;
+    private String cust_pswd;
+    private String cust_social_ntwk;
+    private String cust_stts;
+    private String crtd_by;
+    private String crtd_dttm;
+    private String updt_by;
+    private String updt_dttm;
+
+    public String getCust_id() {
+        return cust_id;
+    }
+
+    public void setCust_id(String cust_id) {
+        this.cust_id = cust_id;
+    }
+
+    public String getCust_frst_name() {
+        return cust_frst_name;
+    }
+
+    public void setCust_frst_name(String cust_frst_name) {
+        this.cust_frst_name = cust_frst_name;
+    }
+
+    public String getCust_last_name() {
+        return cust_last_name;
+    }
+
+    public void setCust_last_name(String cust_last_name) {
+        this.cust_last_name = cust_last_name;
+    }
+
+    public String getCust_frst_name_en() {
+        return cust_frst_name_en;
+    }
+
+    public void setCust_frst_name_en(String cust_frst_name_en) {
+        this.cust_frst_name_en = cust_frst_name_en;
+    }
+
+    public String getCust_last_name_en() {
+        return cust_last_name_en;
+    }
+
+    public void setCust_last_name_en(String cust_last_name_en) {
+        this.cust_last_name_en = cust_last_name_en;
+    }
+
+    public String getCust_img_url() {
+        return cust_img_url;
+    }
+
+    public void setCust_img_url(String cust_img_url) {
+        this.cust_img_url = cust_img_url;
+    }
+
+    public String getCust_email() {
+        return cust_email;
+    }
+
+    public void setCust_email(String cust_email) {
+        this.cust_email = cust_email;
+    }
+
+    public String getCust_mobl_no() {
+        return cust_mobl_no;
+    }
+
+    public void setCust_mobl_no(String cust_mobl_no) {
+        this.cust_mobl_no = cust_mobl_no;
+    }
+
+    public String getCust_auth_id() {
+        return cust_auth_id;
+    }
+
+    public void setCust_auth_id(String cust_auth_id) {
+        this.cust_auth_id = cust_auth_id;
+    }
+
+    public String getCust_auth_type() {
+        return cust_auth_type;
+    }
+
+    public void setCust_auth_type(String cust_auth_type) {
+        this.cust_auth_type = cust_auth_type;
+    }
+
+    public String getCust_gend() {
+        return cust_gend;
+    }
+
+    public void setCust_gend(String cust_gend) {
+        this.cust_gend = cust_gend;
+    }
+
+    public String getCust_brth_dttm() {
+        return cust_brth_dttm;
+    }
+
+    public void setCust_brth_dttm(String cust_brth_dttm) {
+        this.cust_brth_dttm = cust_brth_dttm;
+    }
+
+    public String getCust_nation() {
+        return cust_nation;
+    }
+
+    public void setCust_nation(String cust_nation) {
+        this.cust_nation = cust_nation;
+    }
+
+    public String getCust_username() {
+        return cust_username;
+    }
+
+    public void setCust_username(String cust_username) {
+        this.cust_username = cust_username;
+    }
+
+    public String getCust_pswd() {
+        return cust_pswd;
+    }
+
+    public void setCust_pswd(String cust_pswd) {
+        this.cust_pswd = cust_pswd;
+    }
+
+    public String getCust_social_ntwk() {
+        return cust_social_ntwk;
+    }
+
+    public void setCust_social_ntwk(String cust_social_ntwk) {
+        this.cust_social_ntwk = cust_social_ntwk;
+    }
+
+    public String getCust_stts() {
+        return cust_stts;
+    }
+
+    public void setCust_stts(String cust_stts) {
+        this.cust_stts = cust_stts;
+    }
+
+    public String getCrtd_by() {
+        return crtd_by;
+    }
+
+    public void setCrtd_by(String crtd_by) {
+        this.crtd_by = crtd_by;
+    }
+
+    public String getCrtd_dttm() {
+        return crtd_dttm;
+    }
+
+    public void setCrtd_dttm(String crtd_dttm) {
+        this.crtd_dttm = crtd_dttm;
+    }
+
+    public String getUpdt_by() {
+        return updt_by;
+    }
+
+    public void setUpdt_by(String updt_by) {
+        this.updt_by = updt_by;
+    }
+
+    public String getUpdt_dttm() {
+        return updt_dttm;
+    }
+
+    public void setUpdt_dttm(String updt_dttm) {
+        this.updt_dttm = updt_dttm;
+    }
+}
